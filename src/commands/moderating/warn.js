@@ -22,7 +22,7 @@ module.exports = {
         let reason = args.join(" ").slice(22);
         if (!reason) reason = "Aucune raison n'a été donnée."
         
-        mutee.send(`You were warned in ${message.guild.name} for ${reason}`).catch(() => {
+        mutee.send(`Vous avez été prévenu dans ${message.guild.name} pour ${reason}`).catch(() => {
             return message.channel.send(":x: Cet utilisateur a son **DM** bloqué");
         });
         return message.channel.send(`${mutee} ***a été prévenu!***`);
