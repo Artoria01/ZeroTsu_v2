@@ -9,11 +9,11 @@ module.exports = {
         name: "unban",
         aliases: ["unbanish", "removeban"],
         usage: "$unban <user/userid> <reason>",
-        description: "Unban someone from the server if you for some reason forgive them.",
+        description: "Débannez quelqu'un du serveur si, pour une raison quelconque, vous lui pardonnez.",
         permissions: "ban members"
     },
     run: async (bot, message, args) => {
-        if (message.channel.type == "dm") return message.channel.send("This command only works in a server!");
+        if (message.channel.type == "dm") return message.channel.send("Cette commande ne fonctionne que sur un serveur!");
 
         if(!message.member.hasPermission("BAN_MEMBERS") || !message.guild.owner) return errors.noPerms(message, "BAN_MEMBERS");
         if(!message.guild.me.hasPermission(["BAN_MEMBERS", "ADMINISTRATOR"])) return errors.lack(message.channel, "BAN_MEMBERS");
@@ -30,24 +30,24 @@ module.exports = {
         if(!bans.get(bUser.id)) return errors.notBanned(message.channel, ubUser.id);
 
         let ubReason = args.join(" ").slice(22);
-        if(!ubReason) ubReason = 'No reason given';
+        if(!ubReason) ubReason = 'Aucune raison donnée';
 
         if(ubUser.hasPermission(["BAN_MEMBERS", "ADMINISTRATOR"])) return errors.equalPerms(message, ubUser, "BAN_MEMBERS");
 
         let unbanEmbed = new RichEmbed() //create rich embed
             .setDescription("~Unban~")
             .setColor("#bc0000")
-            .addField("Unbanned user", `${ubUser} with ID ${ubUser.id}`)
-            .addField("Unbanned By", `<@${message.author.id}> with ID ${message.author.id}`)
-            .addField("Unbanned In", message.channel)
-            .addField("Time", message.createdAt)
-            .addField("Reason", ubReason);
+            .addField("Unbanned Utilisateur", `${ubUser} avec ID ${ubUser.id}`)
+            .addField("Unbanned Par", `<@${message.author.id}> avec ID ${message.author.id}`)
+            .addField("Unbanned Dans", message.channel)
+            .addField("Temps", message.createdAt)
+            .addField("Raison", ubReason);
         try {
             message.guild.members.unban(ubUser.id, ubReason);
             message.channel.send(unbanEmbed);
         } catch(e) {
             let id = second.getError(e.message);
-            message.channel.send(`Unfortunately, an error occurred. Error ID: ${id}`);
+            message.channel.send(`Malheureusement, une erreur s'est produite. Erreur ID: ${id}`);
         }
     }
 }
