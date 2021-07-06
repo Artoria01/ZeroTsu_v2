@@ -40,7 +40,7 @@ const defaultConfig = {
     "ownerid": null,
     "private": false,
     "whitelist": false,
-    "status": "z= et z=help",
+    "status": "z=help",
     "prefix": "z=",
     "privateID": "",
     "red": "#b70000",
