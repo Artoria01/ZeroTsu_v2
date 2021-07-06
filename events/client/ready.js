@@ -6,7 +6,7 @@ const configchecker = require("../../utils/configchecker");
 //used to check certain elements of the data set in the botconfig file
 
 module.exports = async bot => {
-    bot.user.setActivity(config.status, {type: "STREAMING"}); //set status
+    bot.user.setActivity(config.status, {type: "LISTENING"}); //set status
     logger.info("Bot is online!");
 
     configchecker.checkPrivate(bot, config); 
