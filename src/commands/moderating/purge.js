@@ -6,11 +6,11 @@ module.exports = {
         name: "purge",
         aliases: ["del", "delete", "clear"],
         usage: "$purge <amount of messages>",
-        description: "Delete up to 100 messages at a time from a channel fast",
+        description: "Supprimez jusqu'à 100 messages à la fois d'un canal rapidement",
         permissions: "manage messages"
     },
     run: async (bot, message, args) => {
-        if (message.channel.type == "dm") return message.channel.send("This command only works in a server!");
+        if (message.channel.type == "dm") return message.channel.send("Cette commande ne fonctionne que sur un serveur!");
         if(!message.member.hasPermission("MANAGE_MESSAGES")) return errors.noPerms(message, "MANAGE_MESSAGES");
         if(!message.guild.me.hasPermission(["MANAGE_MESSAGES", "ADMINISTRATOR"])) return errors.lack(message.channel, "MANAGE_MESSAGES");
 
@@ -19,19 +19,19 @@ module.exports = {
 
         if(isNaN(args[0])) return message.channel.send(`Usage: ${cmd} (number of messages)`); //must be number not word
 
-        if (args[0] > 100) return message.channel.send("No deleting over 100 messages at a time to prevent lag, please!");
-        if(args[0] == 0) return message.channel.send("You cannot delete 0 messages!");
+        if (args[0] > 100) return message.channel.send("Pas de suppression de plus de 100 messages à la fois pour éviter le décalage, s'il vous plaît!");
+        if(args[0] == 0) return message.channel.send("Vous ne pouvez pas supprimer 0 message!");
 
         const fetched = await message.channel.fetchMessages({limit: args[0]});
         
         try {
             await message.channel.bulkDelete(fetched);
             if (args[0] > 40) {
-                message.channel.send(`Successfully deleted ${args[0]} messages`).then(msg => msg.delete(2000));
+                message.channel.send(`Supprimé avec succès ${args[0]} messages`).then(msg => msg.delete(2000));
             } else return;
         } catch(e) {
             let id = second.getError(e.message);
-            message.channel.send(`**-Unfortunately an error occurred. Error ID: ${id}**`);
+            message.channel.send(`**-Malheureusement, une erreur s'est produite. ID d'erreur: ${id}**`);
         }
     }
 }
